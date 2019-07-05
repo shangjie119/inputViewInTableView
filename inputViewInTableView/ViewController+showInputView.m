@@ -128,13 +128,14 @@
     
     if (move <= 0) return;
     
-    CGRect frame = self.tableView.frame;
-    frame.size.height = kScreenHeight - self.kbSize.height;
-    self.tableView.frame = frame;
     CGFloat shouldOffsetY = move + self.tableView.contentOffset.y;
     [UIView animateWithDuration:duration delay:0 options:(UIViewAnimationOptionCurveEaseInOut) animations:^{
         [self.tableView setContentOffset:CGPointMake(0, shouldOffsetY) animated:NO];
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        CGRect frame = self.tableView.frame;
+        frame.size.height = kScreenHeight - self.kbSize.height;
+        self.tableView.frame = frame;        
+    }];
 }
 
 - (void)restorePosition
